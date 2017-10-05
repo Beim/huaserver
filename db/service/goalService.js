@@ -35,20 +35,29 @@ exports.update = {
         })
     },
 
-    add_goal: (rid, gift_name, num=1) => {
+    // add_goal: (rid, gift_name, num=1) => {
+    //     return new Promise((res, rej) => {
+    //         model.findOne({rid, gift_name}, (err, doc) => {
+    //             if (err) { logger.err(err); res(0); }
+    //             else {
+    //                 if (doc) {
+    //                     doc.count += parseInt(num)
+    //                     doc.save((err) => {
+    //                         if (err) { logger.err(err); res(0); }
+    //                         else res(1)
+    //                     })
+    //                 }
+    //                 else { res(-1); }
+    //             }
+    //         })
+    //     })
+    // },
+
+    add_goal_atomic: (rid, gift_name, num=1) => {
         return new Promise((res, rej) => {
-            model.findOne({rid, gift_name}, (err, doc) => {
+            model.update({rid, gift_name}, {'$inc': {'count': num}}, (err) => {
                 if (err) { logger.err(err); res(0); }
-                else {
-                    if (doc) {
-                        doc.count += parseInt(num)
-                        doc.save((err) => {
-                            if (err) { logger.err(err); res(0); }
-                            else res(1)
-                        })
-                    }
-                    else { res(-1); }
-                }
+                else res(1)
             })
         })
     }

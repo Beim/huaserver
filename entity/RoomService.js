@@ -41,21 +41,22 @@ class RoomService {
     // 设置rs(room service) 的handler
     _set_rs_handler() {
         let rs = this.rs
-        rs.on('danmaku.message', (msg) => {
+        rs.on('danmaku.message', async (msg) => {
             this._connected()
             if (msg.type === 'online') {
                 let data = Object.assign({rid: this.rid}, msg)
-                db.insert.onlineMsg(data)
+                await db.insert.onlineMsg(data)
             }
             else if (msg.type === 'gift') {
                 let data = Object.assign({rid: this.rid}, msg)
-                db.insert.gift(data)
-                db.update.add_goal(this.rid, msg.gift.name, msg.gift.count)
+                await db.insert.gift(data)
+                // await db.update.add_goal(this.rid, msg.gift.name, msg.gift.count)
+                await db.update.add_goal_atomic(this.rid, msg.gift.name, msg.gift.count)
                 console.log(`增加礼物【${msg.gift.name}】 【${msg.gift.count}】个`)
             }
             else if (msg.type === 'comment') {
                 let data = Object.assign({rid: this.rid}, msg)
-                db.insert.comment(data)
+                await db.insert.comment(data)
             }
         })
         rs.on('danmaku.connect', () => {
