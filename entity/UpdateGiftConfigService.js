@@ -27,32 +27,23 @@ const get = (url) => {
 }
 
 const update = async () => {
-    try {
-        const html = await get('http://live.bilibili.com/221')
-        const $ = cheerio.load(html)
-        let gift_items = $('.gift-item')
-        let gifts = []
-        for (let i = 0; i < gift_items.length; i++) {
-            let gift = $(gift_items[i]).attr('data-title')
-            if (gift) {
-                gifts.push({
-                    name: gift,
-                    icon_id: parseInt($(gift_items[i]).attr('data-gift-id'))
-                })
-            }
+    let rsp = await get('http://api.live.bilibili.com/gift/v2/live/room_gift_list?roomid=53847&area_v2_id=30')
+    if (rsp) rsp = JSON.parse(rsp)
+    let gifts = []
+    if (rsp['msg'] === 'success' && rsp['data'].length > 0) {
+        for (let item of rsp.data) {
+            gifts.push({
+                name: item.name,
+                icon_id: parseInt(item.id),
+            })
         }
-        if (gifts.length > 0) {
-            await db.delete.giftConfig()
-            for (let item of gifts) {
-                await db.update.giftConfig(item.name, item.icon_id)
-            }
-        } 
     }
-    catch (e) {
-        logger.err('updateGiftConfigService')
-        logger.err(e)
+    if (gifts.length > 0) {
+        await db.delete.giftConfig()
+        for (let item of gifts) {
+            await db.update.giftConfig(item.name, item.icon_id)
+        }
     }
-    
 }
 
 class UpdateGiftService {
