@@ -80,4 +80,13 @@ router.get('/set/count/:gift_name/:room_id', async (ctx, next) => {
     await next()
 })
 
+// /api/set/reward/:gift_name/:room_id?reward=[喝水]
+router.get('/set/reward/:gift_name/:room_id', async (ctx, next) => {
+    let { gift_name, room_id } = ctx.params
+    let reward = ctx.query.reward
+    let ret = await db.update.goal(parseInt(room_id), gift_name, {reward})
+    ctx.body = ResMsg(ret, '')
+    await next()
+})
+
 module.exports = router
