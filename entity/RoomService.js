@@ -49,6 +49,7 @@ class RoomService {
             }
             else if (msg.type === 'gift') {
                 let data = Object.assign({rid: this.rid}, msg)
+                data = this._parse_gift_data(data) // 注意这里msg的数据也会被修改
                 await db.insert.gift(data)
                 // await db.update.add_goal(this.rid, msg.gift.name, msg.gift.count)
                 await db.update.add_goal_atomic(this.rid, msg.gift.name, msg.gift.count)
