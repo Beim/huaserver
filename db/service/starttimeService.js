@@ -45,6 +45,7 @@ exports.update = {
                     Object.assign(doc, data)
                     console.log('on update')
                     console.log(data)
+                    logger.log(`on update ${JSON.stringify(data)}`)
                     doc.save((err) => {
                         if (err) {
                             logger.err(err)

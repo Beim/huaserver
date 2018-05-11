@@ -52,7 +52,7 @@ class RoomService {
                 await db.insert.gift(data)
                 // await db.update.add_goal(this.rid, msg.gift.name, msg.gift.count)
                 await db.update.add_goal_atomic(this.rid, msg.gift.name, msg.gift.count)
-                console.log(`增加礼物【${msg.gift.name}】 【${msg.gift.count}】个`)
+                logger.log(`增加礼物【${msg.gift.name}】 【${msg.gift.count}】个`)
             }
             else if (msg.type === 'comment') {
                 let data = Object.assign({rid: this.rid}, msg)
