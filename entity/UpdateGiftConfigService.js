@@ -27,7 +27,8 @@ const get = (url) => {
 }
 
 const update = async () => {
-    let rsp = await get('http://api.live.bilibili.com/gift/v2/live/room_gift_list?roomid=53847&area_v2_id=30')
+    // let rsp = await get('http://api.live.bilibili.com/gift/v2/live/room_gift_list?roomid=53847&area_v2_id=30')
+    let rsp = await get('http://api.live.bilibili.com/gift/v3/live/gift_config') // b站api更新
     if (rsp) rsp = JSON.parse(rsp)
     let gifts = []
     if (rsp['msg'] === 'success' && rsp['data'].length > 0) {
