@@ -36,13 +36,14 @@ const update = async () => {
             gifts.push({
                 name: item.name,
                 icon_id: parseInt(item.id),
+                img_basic: item.img_basic,
             })
         }
     }
     if (gifts.length > 0) {
         await db.delete.giftConfig()
         for (let item of gifts) {
-            await db.update.giftConfig(item.name, item.icon_id)
+            await db.update.giftConfig(item.name, item.icon_id, item.img_basic)
         }
     }
 }

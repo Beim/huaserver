@@ -2,7 +2,7 @@ const model = require('../model/giftConfigModel.js')
 const logger = require('../../entity/logger.js')
 
 exports.update = {
-    giftConfig: (name, icon_id) => {
+    giftConfig: (name, icon_id, img_basic) => {
         return new Promise((res, rej) => {
             model.findOne({name}, (err, doc) => {
                 if (err) {
@@ -11,7 +11,7 @@ exports.update = {
                 }
                 else {
                     if (doc) {
-                        Object.assign(doc, {icon_id})
+                        Object.assign(doc, {icon_id, img_basic})
                         doc.save((err) => {
                             if (err) {
                                 logger.err(err)
@@ -23,7 +23,7 @@ exports.update = {
                         })
                     }
                     else {
-                        model.create({name, icon_id}, (err, doc) => {
+                        model.create({name, icon_id, img_basic}, (err, doc) => {
                             if (err) {
                                 logger.err(err)
                                 res(0)
