@@ -21,6 +21,11 @@ class ProjRankManager {
         }
     }
 
+    clear() {
+        this.onlist = []
+        this.offlist = []
+    }
+
     runFunc() {
         // 只保留100个
         if (this.offlist.length > 100) {

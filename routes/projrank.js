@@ -50,6 +50,12 @@ router.get('/set/proj/duration', async (ctx, next) => {
     await next()
 })
 
+router.get('/set/projrank/clear', async (ctx, next) => {
+    projRankManager.clear()
+    ctx.body = ResMsg(1, '')
+    await next()
+})
+
 
 
 
