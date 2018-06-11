@@ -56,6 +56,17 @@ router.get('/set/projrank/clear', async (ctx, next) => {
     await next()
 })
 
+// /api/set/proj/reopen?idx=?&&duration=?
+router.get('/set/proj/reopen', async (ctx, next) => {
+    const {idx, duration} = ctx.query
+    const projRank = projRankManager.offlist[idx]
+    if (projRank === undefined) return ctx.body = ResMsg(0, `offlist[${idx}] not found`)
+    projRankManager.offlist.splice(idx, 1)
+    projRank.duration = parseInt(duration)
+    ctx.body = ResMsg(projRankManager.insert(projRank), '')
+    await next()
+})
+
 
 
 
