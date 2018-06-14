@@ -67,6 +67,20 @@ router.get('/set/proj/reopen', async (ctx, next) => {
     await next()
 })
 
+// /api/del/proj?on=?&&idx=?
+router.get('/del/proj', async (ctx, next) => {
+    const on = parseInt(ctx.query.on)
+    const idx = parseInt(ctx.query.idx)
+    if (on) {
+        projRankManager.onlist.splice(idx, 1)
+    }
+    else {
+        projRankManager.offlist.splice(idx, 1)
+    }
+    ctx.body = ResMsg(1, '')
+    await next()
+})
+
 
 
 
