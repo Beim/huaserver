@@ -82,9 +82,14 @@ class RoomService {
     // 处理一下个别礼物的名字问题 
     _parse_gift_data(data) {
         // 小电视名字变更为小电视飞船 # 2018.5.12 b站送小电视时礼物名是小电视飞船，但是抓全部礼物时名字还是小电视，这里需要修改插入数据的礼物名
-        if (data.gift.name === '小电视飞船') {
-            logger.log('【小电视飞船】 改为【小电视】')
-            data.gift.name = '小电视'
+        // if (data.gift.name === '小电视飞船') {
+        //     logger.log('【小电视飞船】 改为【小电视】')
+        //     data.gift.name = '小电视'
+        // }
+        // 外显小电视飞船，api显示小电视
+        if (data.gift.name.match('小电视')) {
+            logger.log(`【${data.gift.name}】 改为 【小电视飞船】`)
+            data.gift.name = '小电视飞船'
         }
         return data
     }
