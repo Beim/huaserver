@@ -51,9 +51,8 @@ class RoomService {
                 let data = Object.assign({rid: this.rid}, msg)
                 data = this._parse_gift_data(data) // 注意这里msg的数据也会被修改
                 await db.insert.gift(data)
-                // await db.update.add_goal(this.rid, msg.gift.name, msg.gift.count)
                 await db.update.add_goal_atomic(this.rid, msg.gift.name, msg.gift.count)
-                logger.log(`增加礼物【${msg.gift.name}】 【${msg.gift.count}】个`)
+                logger.log(`RoomService: 礼物【${msg.gift.id}】【${msg.gift.name}】 【${msg.gift.count}】个 by 【${msg.user.name}】`)
             }
             else if (msg.type === 'comment') {
                 let data = Object.assign({rid: this.rid}, msg)
@@ -62,19 +61,19 @@ class RoomService {
         })
         rs.on('danmaku.connect', () => {
             this._disconnected()
-            logger.log('正在连接')
+            logger.log('RoomService: 正在连接')
         })
         rs.on('danmaku.connected', () => {
             this._connected()
-            logger.log('已经连接')
+            logger.log('RoomService: 已经连接')
         })
         rs.on('danmaku.close', () => {
             this._disconnected()
-            logger.log('关闭连接')
+            logger.log('RoomService: 关闭连接')
         })
         rs.on('danmaku.error', () => {
             this._disconnected()
-            logger.log('发生错误')
+            logger.log('RoomService: 发生错误')
         })
         
     }
